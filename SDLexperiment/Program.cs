@@ -12,40 +12,44 @@ namespace SDLexperiment
         {
             SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 
-            //var window = IntPtr.Zero;
-            //window = SDL.SDL_CreateWindow("Hallo Leute was geht ab :D",
-            //    SDL.SDL_WINDOWPOS_CENTERED,
-            //    SDL.SDL_WINDOWPOS_CENTERED,
-            //    1028,
-            //    800,
-            //    SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE
+            //IntPtr window;
+            //IntPtr renderer;
+            //SDL.SDL_CreateWindowAndRenderer(
+            //    640,
+            //    480,
+            //    SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE,
+            //    out window,
+            //    out renderer
             //    );
 
-            IntPtr window;
-            IntPtr renderer;
-            SDL.SDL_CreateWindowAndRenderer(
+            IntPtr window = SDL.SDL_CreateWindow("Fenstertitel",
+                SDL.SDL_WINDOWPOS_CENTERED,
+                SDL.SDL_WINDOWPOS_CENTERED,
                 640,
-                480,
-                SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE,
-                out window,
-                out renderer
-                );
+                320,
+                SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
 
-            IntPtr pixels;
-            pixels = SDL.SDL_CreateTexture(renderer, SDL.SDL_PIXELFORMAT_ABGR8888, (int)SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC, 640, 480);
+            IntPtr renderer = SDL.SDL_CreateRenderer(window, -1, 0);
 
-            var test = pixels;
+            SDL.SDL_RenderSetScale(renderer, 10.0f, 10.0f); // Render a pixel 10 times bigger than it actually is
+
 
             SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
             SDL.SDL_RenderClear(renderer);
             SDL.SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            for (int i = 0; i < 640; i++)
+            for (int i = 0; i < 30; i++)
             {
                 SDL.SDL_RenderDrawPoint(renderer, i, i);
             }
             SDL.SDL_RenderPresent(renderer);
 
-            // SDL.SDL_Delay(5000);
+            SDL.SDL_Delay(1500);
+            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+            SDL.SDL_RenderClear(renderer);
+            SDL.SDL_RenderPresent(renderer);
+
+
+            // "Game Loop"
             SDL.SDL_Event e;
             bool quit = false;
             while (!quit)
